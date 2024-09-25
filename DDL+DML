@@ -1,0 +1,66 @@
+-- Criação da tabela de suspeitos
+CREATE TABLE IF NOT EXISTS suspeitos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nome TEXT NOT NULL,
+    Cargo_Cimatec TEXT NOT NULL,
+    Especializacao TEXT NOT NULL
+);
+
+-- Criação da tabela de Acesso_Laboratorio
+CREATE TABLE IF NOT EXISTS Acesso_Laboratorio (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nome_Laboratorio TEXT NOT NULL,
+    Horario_Entrada TEXT NOT NULL,
+    Horario_Saida TEXT NOT NULL,
+    Nivel_Acesso TEXT NOT NULL,
+    fk_pessoa INTEGER,
+    FOREIGN KEY (fk_pessoa) REFERENCES suspeitos(ID)
+);
+
+-- Criação da tabela de Arquivos_Projetos
+CREATE TABLE IF NOT EXISTS Arquivos_Projetos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nome_Arquivo TEXT NOT NULL,
+    Horario_Modificacao TEXT NOT NULL,
+    Data_Modificacao TEXT NOT NULL,
+    Area_Modificada TEXT NOT NULL,
+    Responsavel_fk INTEGER,
+    FOREIGN KEY (Responsavel_fk) REFERENCES suspeitos(ID)
+);
+
+-- Criação da tabela de email_corporacao
+CREATE TABLE IF NOT EXISTS email_corporacao (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Mensagem TEXT NOT NULL,
+    Horario TEXT NOT NULL
+);
+
+-- Inserção de dados na tabela de suspeitos
+INSERT INTO suspeitos (Nome, Cargo_Cimatec, Especializacao) VALUES 
+('Flavia', 'Pesquisadora', 'Visão Computacional'),
+('Adriana', 'Engenheira de Software', 'Lógica de Decisão'),
+('Renata', 'Cientista de Dados', 'Visão Computacional'),
+('Lucas', 'Engenheiro de Robótica', 'Comandos Autônomos'),
+('Gustavo', 'Gerente de Projetos', 'Coordenação');
+
+-- Inserção de dados na tabela de Acesso_Laboratorio
+INSERT INTO Acesso_Laboratorio (Nome_Laboratorio, Horario_Entrada, Horario_Saida, Nivel_Acesso, fk_pessoa) VALUES
+('LAB-Robotica', '13:00', '17:00', 'Baixa', 1),
+('LAB-IA', '09:00', '12:00', 'Alta', 2),
+('LAB-Visao', '10:00', '14:00', 'Média', 3),
+('LAB-Robotica', '11:00', '15:00', 'Alta', 4);
+
+-- Inserção de dados na tabela de Arquivos_Projetos
+INSERT INTO Arquivos_Projetos (Nome_Arquivo, Horario_Modificacao, Data_Modificacao, Area_Modificada, Responsavel_fk) VALUES
+('IA - v3.2', '16:00', '2024-09-01', 'Inteligencia Artificial', 1),
+('Projeto_Visao_v1', '11:30', '2024-09-05', 'Visão Computacional', 3),
+('Projeto_Robotica_v3', '15:00', '2024-09-12', 'Robótica', 4),
+('Projeto_Robotica_v2', '14:45', '2024-09-10', 'Mecânica', 2);
+
+-- Inserção de dados na tabela de email_corporacao
+INSERT INTO email_corporacao (Mensagem, Horario) VALUES
+('Equipe, Conforme combinado, a atualização da nossa IA de reconhecimento de padrões e tomada de decisão (versão 3.2) está programada para o dia 21 de setembro. O código em Ruby ainda precisa de alguns ajustes para garantir a compatibilidade com o módulo de visão computacional. Adriana, você poderia verificar se a sua parte relacionada à lógica de decisão está dentro do cronograma? Precisamos garantir que tudo estará pronto até o dia 20 para que possamos rodar os testes finais. Lembrem-se de que nenhuma modificação deve ser feita na IA até a data acordada. Att., Gustavo', '2024-09-15 11:00'),
+('Oi, Gustavo, Estou terminando de ajustar a lógica de decisão na IA. O código está 80% finalizado e pretendo concluir tudo até o dia 19 de setembro. Acredito que podemos rodar os testes no dia 20, como planejado. É importante frisar que, se alguém alterar o código antes dessa data, corremos o risco de desestabilizar a IA e, consequentemente, o sistema de reconhecimento de padrões e a integração com o módulo de visão. Vamos garantir que tudo permaneça intocado até estarmos prontos para o rollout no dia 21. Abs, Adriana', '2024-09-16 10:00'),
+('Pessoal, Tudo certo da minha parte para a integração da visão computacional com a IA. Estarei disponível nos dias 19 e 20 para fazer os testes finais, conforme o planejamento. Lembrando que qualquer alteração na IA antes do dia 21 sem autorização pode comprometer todo o processo de reconhecimento visual. Precisamos evitar isso a todo custo. Abraços, Renata', '2024-09-10 16:00'),
+('Oi, equipe, Só para garantir, vou revisar a integração da IA com os robôs até o dia 20 de setembro. Precisamos manter a agenda para evitar problemas de sincronização entre a IA e os comandos do robô. Qualquer mudança no código agora pode gerar falhas no comportamento autônomo do robô. Vou reforçar que nenhuma modificação deve ser feita até que todos nós estejamos prontos para lançar a versão final no dia 21. Abs, Lucas', '2024-09-09 09:00'),
+('Pessoal, Gostaria de reforçar que a atualização da IA, versão 3.2, NÃO está autorizada para ser realizada antes do dia 21 de setembro. Não houve nenhuma mudança no cronograma, e qualquer modificação anterior à data pode gerar sérios problemas no reconhecimento de padrões e na integração com os robôs e a visão computacional. Se alguém perceber algo fora do planejado, por favor, me avise imediatamente. Obrigado, Gustavo', '2024-09-08 08:00');
