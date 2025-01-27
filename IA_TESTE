@@ -1,0 +1,80 @@
+import openai
+import os
+
+# Defina sua chave de API de forma segura
+openai.api_key = os.getenv("OPENAI_API_KEY")  # A chave de API deve ser configurada como variável de ambiente.
+
+def validar_taxonomia_motivacao_intrinseca(texto):
+    """
+    Função que verifica se o texto gerado respeita a taxonomia da motivação intrínseca
+    e sugere melhorias, se necessário, usando a API do OpenAI.
+    """
+    prompt = f"Verifique se o seguinte texto respeita a taxonomia da motivação intrínseca e sugira melhorias se necessário:\n\nTexto: {texto}\n\nResposta:"
+    
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=150,
+            n=1,
+            stop=None,
+            temperature=0.7  # Ajuste para maior variação nas sugestões
+        )
+        
+        # Extraindo o texto gerado da resposta
+        validacao = response.choices[0].text.strip()
+        return validacao
+
+    except Exception as e:
+        return f"Ocorreu um erro ao acessar a API: {str(e)}"
+
+# Testando a função com um texto gerado
+texto_gerado = "Gerando um contexto que envolve o jogador em tarefas desafiadoras e recompensadoras."
+resultado = validar_taxonomia_motivacao_intrinseca(texto_gerado)
+print(resultado)
+
+def api_jogo_serio():
+    # Simulação de uma API que adapta o jogo para fins de aprendizado sério
+    return "Adaptação do jogo para promover habilidades cognitivas e de aprendizado."
+
+def api_cluedo():
+    # Simulação de uma API que utiliza a lógica do jogo Cluedo para jogabilidade
+    return "Implementando lógica de investigação e dedução baseada em Cluedo."
+
+# Função que processa a entrada de recursos humanos
+def recurso_humano_tema():
+    return "Enredo do jogo: Aventura em um mundo pós-apocalíptico onde os jogadores devem sobreviver e resolver mistérios."
+
+def recurso_humano_tabela_niveis():
+    return "Definição de níveis: Fácil, Médio, Difícil, Expert."
+
+# Função principal para construir a história
+def construir_historia():
+    print("Construindo a História do Jogo...\n")
+    
+    # Entrada de Recurso Humano
+    tema = recurso_humano_tema()
+    niveis = recurso_humano_tabela_niveis()
+    
+    # Chamada de APIs de IA Treinada
+    motivacao = validar_taxonomia_motivacao_intrinseca(tema)
+    jogo_serio = api_jogo_serio()
+    cluedo = api_cluedo()
+    
+    # Construindo a narrativa final
+    narrativa = f"""
+    Tema: {tema}
+    
+    Taxonomia da Motivação Intrínseca: {motivacao}
+    
+    Tabela de Níveis: {niveis}
+    
+    Jogo Sério: {jogo_serio}
+    
+    Lógica de Jogo de Tabuleiro (Cluedo): {cluedo}
+    """
+    
+    print(narrativa)
+
+# Executando o sistema
+construir_historia()
